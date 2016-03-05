@@ -12,19 +12,36 @@ F1 = 0;
 
 stepsize = (max(pval) - min(pval)) / 1000;
 for epsilon = min(pval):stepsize:max(pval)
-    
+
     % ====================== YOUR CODE HERE ======================
     % Instructions: Compute the F1 score of choosing epsilon as the
     %               threshold and place the value in F1. The code at the
     %               end of the loop will compare the F1 score for this
     %               choice of epsilon and set it to be the best epsilon if
     %               it is better than the current choice of epsilon.
-    %               
+    %
     % Note: You can use predictions = (pval < epsilon) to get a binary vector
     %       of 0's and 1's of the outlier predictions
 
+% load('ex8data1.mat');
+% [mu sigma2] = estimateGaussian(X);
+% p = multivariateGaussian(X, mu, sigma2);
+
+% [epsilon F1] = selectThreshold([1 0 0 1 1]', [0.1 0.2 0.3 0.4 0.5]')
+%yval = [1 0 0 1 1]'
+%pval = [0.1 0.2 0.3 0.4 0.5]'
+
+    ypred = pval < epsilon;
+
+    fp = sum(ypred > yval);
+    tp = sum((ypred == yval) & (yval == 1));
+    fn = sum(yval > ypred);
 
 
+    precision = tp/(tp+fp);
+    recall = tp/(tp+fn);
+
+    F1 = 2 * precision * recall /(recall+precision);
 
 
 
